@@ -7,7 +7,6 @@ from tempfile import mkdtemp
 import json
 import html2text
 from lxml import etree
-from elasticsearch_dsl import Index
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -62,9 +61,11 @@ class Command(BaseCommand):
                     "{0}{1} looks like a scan".format(doc, ext))
 
                 out_doc["content"] = ""
+                out_doc["plain_content"] = ""
                 out_doc["is_scan"] = True
             else:
                 out_doc["content"] = content
+                out_doc["plain_content"] = plain_content
 
             return out_doc
         finally:

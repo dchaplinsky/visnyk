@@ -22,12 +22,11 @@ visnyk_index.settings(
         }
     }
 )
-visnyk_index.create()
 
 
 @visnyk_index.doc_type
 class VisnykDocument(DocType):
     """Visnyk document."""
-    content = String(analyzer="html_uk_analyzer")
+    plain_content = String(analyzer="html_uk_analyzer")
     goods_name = String(analyzer="html_uk_analyzer")
     cust_name = String(analyzer="html_uk_analyzer")

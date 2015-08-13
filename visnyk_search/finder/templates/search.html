@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block body %}
+    {# Display a form #}
+    <form action="" method="GET" class="form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group" id="adv-search">
+                    <input type="text" class="form-control" placeholder="Що завгодно" name="q" />
+                    <div class="input-group-btn">
+                        <div class="btn-group" role="group">
+ <!--                            <div class="dropdown dropdown-lg">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <form class="form-horizontal" role="form">
+                                      <div class="form-group">
+                                        <label for="filter">Filter by</label>
+                                        <select class="form-control">
+                                            <option value="0" selected>All Snippets</option>
+                                            <option value="1">Featured</option>
+                                            <option value="2">Most popular</option>
+                                            <option value="3">Top rated</option>
+                                            <option value="4">Most commented</option>
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="contain">Author</label>
+                                        <input class="form-control" type="text" />
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="contain">Contains the words</label>
+                                        <input class="form-control" type="text" />
+                                      </div>
+                                      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </form>
+                                </div>
+                            </div>
+ -->                           
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </form>
+
+    {% if docs %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                {% for doc in docs %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        {{ doc.doc_name }}, <a href="{{ doc.url }}" target="_blank">{{ doc.goods_name }}</a>
+                        </div>
+                        <div class="panel-body">
+                        {% for snippet in doc.meta.highlight.plain_content %}
+                            <div class="well well-sm snippet">{{ snippet|safe }}</div>
+                        {% endfor %}
+                        </div>
+                        <div class="panel-footer">
+                        {{ doc.region_name }}, {{ doc.announce_date }}, <a href="#">{{ doc.filename }}</a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+                {% if doc.paginator.num_pages > 1 %}
+                    <ul class="pagination">
+                        <li{% if not results.has_previous %} class="disabled"{% endif %}><a href="{{ url }}{% if results.has_previous %}?{#{ updated_querystring(request, {'page': results.previous_page_number}) }#}{% endif %}">«</a></li>
+                        {% for page_num in results.contextual_page_range %}
+                        {% if page_num == None %}
+                            <li class="disabled"><span>&hellip;</span></li>
+                        {% else %}
+                            <li{% if results.number == page_num %} class="active"{% endif %}><a href="{{ url }}?{#{ updated_querystring(request, {'page': page_num}) }#}">{{ page_num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        <li{% if not results.has_next %} class="disabled"{% endif %}><a href="{{ url }}{% if results.has_next %}?{#{ updated_querystring(request, {'page': results.next_page_number}) }#}{% endif %}">»</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
