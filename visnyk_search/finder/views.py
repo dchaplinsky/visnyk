@@ -29,5 +29,6 @@ def search(request):
         )
 
     return render(request, "search.html", {
-        "docs": docs
+        "docs": docs,
+        "query": query
     })

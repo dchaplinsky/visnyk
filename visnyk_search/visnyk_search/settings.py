@@ -117,7 +117,7 @@ BOOTSTRAP3 = {
     'jquery_url': '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'
 }
 
-CATALOG_PER_PAGE = 20
+CATALOG_PER_PAGE = 10
 
 try:
     from .local_settings import *

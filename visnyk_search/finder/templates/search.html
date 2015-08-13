@@ -60,23 +60,23 @@
                         {% endfor %}
                         </div>
                         <div class="panel-footer">
-                        {{ doc.region_name }}, {{ doc.announce_date }}, <a href="#">{{ doc.filename }}</a>
+                        {{ doc.region_name }}, {{ doc.announce_date }}, <a href="/docs/{{ doc.filename }}">{{ doc.filename }}</a>
                         </div>
                     </div>
 
                 {% endfor %}
 
-                {% if doc.paginator.num_pages > 1 %}
+                {% if docs.paginator.num_pages > 1 %}
                     <ul class="pagination">
-                        <li{% if not results.has_previous %} class="disabled"{% endif %}><a href="{{ url }}{% if results.has_previous %}?{#{ updated_querystring(request, {'page': results.previous_page_number}) }#}{% endif %}">«</a></li>
-                        {% for page_num in results.contextual_page_range %}
+                        <li{% if not docs.has_previous %} class="disabled"{% endif %}><a href="{% if docs.has_previous %}?q={{ query|urlencode }}&page={{ docs.previous_page_number }}{% endif %}">«</a></li>
+                        {% for page_num in docs.contextual_page_range %}
                         {% if page_num == None %}
                             <li class="disabled"><span>&hellip;</span></li>
                         {% else %}
-                            <li{% if results.number == page_num %} class="active"{% endif %}><a href="{{ url }}?{#{ updated_querystring(request, {'page': page_num}) }#}">{{ page_num }}</a></li>
+                            <li{% if docs.number == page_num %} class="active"{% endif %}><a href="?q={{ query|urlencode }}&page={{ page_num }}">{{ page_num }}</a></li>
                         {% endif %}
                         {% endfor %}
-                        <li{% if not results.has_next %} class="disabled"{% endif %}><a href="{{ url }}{% if results.has_next %}?{#{ updated_querystring(request, {'page': results.next_page_number}) }#}{% endif %}">»</a></li>
+                        <li{% if not docs.has_next %} class="disabled"{% endif %}><a href="{% if docs.has_next %}??q={{ query|urlencode }}&page={{ docs.next_page_number }}{% endif %}">»</a></li>
                     </ul>
                 {% endif %}
             </div>
