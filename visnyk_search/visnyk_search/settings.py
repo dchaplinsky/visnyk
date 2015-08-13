@@ -101,6 +101,9 @@ USE_I18N = False
 USE_L10N = False
 USE_TZ = False
 
+SOFFICE_BIN = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+PDF_TO_HTML_BIN = "/usr/local/bin/pdftohtml"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

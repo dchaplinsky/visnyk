@@ -9,12 +9,9 @@ from lxml import etree
 from elasticsearch_dsl import Index
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 
 from finder.elastic_models import VisnykDocument
-
-
-SOFFICE_BIN = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
-PDF_TO_HTML_BIN = "/usr/local/bin/pdftohtml"
 
 
 class ConvertException(Exception):
