@@ -40,11 +40,11 @@ class Command(BaseCommand):
             outfile = os.path.join(dr, os.path.basename(doc) + ".html")
 
             if ext == ".pdf":
-                pr = Popen([PDF_TO_HTML_BIN, "-s", "-noframes",
+                pr = Popen([settings.PDF_TO_HTML_BIN, "-s", "-noframes",
                             "{0}{1}".format(doc, ext), outfile])
             else:
-                pr = Popen([SOFFICE_BIN, "--headless", "--convert-to", "html",
-                            "--outdir", dr, "{0}{1}".format(doc, ext)])
+                pr = Popen([settings.SOFFICE_BIN, "--headless", "--convert-to",
+                            "html", "--outdir", dr, "{0}{1}".format(doc, ext)])
 
             stdout, stderr = pr.communicate()
 
