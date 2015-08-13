@@ -4,6 +4,7 @@ import os.path
 from subprocess import Popen
 from tempfile import mkdtemp
 
+import json
 import html2text
 from lxml import etree
 from elasticsearch_dsl import Index
@@ -59,9 +60,12 @@ class Command(BaseCommand):
             if len(plain_content) < 100:
                 self.stderr.write(
                     "{0}{1} looks like a scan".format(doc, ext))
-                return False
 
-            out_doc["content"] = content
+                out_doc["content"] = ""
+                out_doc["is_scan"] = True
+            else:
+                out_doc["content"] = content
+
             return out_doc
         finally:
             shutil.rmtree(dr)
@@ -85,9 +89,23 @@ class Command(BaseCommand):
                         continue
 
                     try:
-                        doc = self.convert_to_json_doc(basename, ext)
+                        doc = None
+
+                        if not os.path.exists(basename + ".json"):
+                            # continue
+                            doc = self.convert_to_json_doc(basename, ext)
+
+                            if doc:
+                                with open(basename + ".json", "w") as fp:
+                                    json.dump(doc, fp)
+                        else:
+                            with open(basename + ".json", "r") as fp:
+                                doc = json.load(fp)
+
                         if doc:
                             doc["_id"] = fname
+                            doc["filename"] = basename.replace(
+                                arg, "", 1).lstrip("/") + ext
 
                             el_doc = VisnykDocument(**doc)
                             el_doc.save()
