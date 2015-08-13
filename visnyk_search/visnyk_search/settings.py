@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'finder',
 )
 
@@ -109,6 +110,14 @@ PDF_TO_HTML_BIN = "/usr/local/bin/pdftohtml"
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Default settings
+BOOTSTRAP3 = {
+    # The URL to the jQuery JavaScript file
+    'jquery_url': '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'
+}
+
+CATALOG_PER_PAGE = 20
 
 try:
     from .local_settings import *
