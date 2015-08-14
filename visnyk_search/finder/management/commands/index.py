@@ -51,7 +51,7 @@ class Command(BaseCommand):
             if not os.path.exists(outfile):
                 raise ConvertException(stdout=stdout, stderr=stderr)
 
-            with open(outfile, "r") as fp:
+            with open(outfile, "r", errors="replace") as fp:
                 content = fp.read()
 
             plain_content = self.html2text.handle(content)
