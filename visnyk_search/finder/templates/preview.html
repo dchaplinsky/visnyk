@@ -1,0 +1,11 @@
+{% if doc.is_scan %}
+<html>
+    <head>
+    </head>
+    <body>
+        <h2>Сканований документ</h2>
+    </body>
+</html>
+{% else %}
+{{ doc.content|safe }}
+{% endif %}

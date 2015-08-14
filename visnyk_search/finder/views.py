@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import Http404
+
+from elasticsearch.exceptions import NotFoundError
 
 from finder.paginator import paginated_search
 from finder.elastic_models import VisnykDocument
@@ -32,3 +35,12 @@ def search(request):
         "docs": docs,
         "query": query
     })
+
+
+def preview(request, doc_id):
+    try:
+        doc = VisnykDocument.get(id=doc_id)
+    except (ValueError, NotFoundError):
+        raise Http404("Таких не знаємо!")
+
+    return render(request, "preview.html", {"doc": doc})

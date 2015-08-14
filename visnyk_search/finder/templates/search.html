@@ -37,7 +37,7 @@
                                 </div>
                             </div>
  -->                           
-                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                         </div>
                     </div>
                 </div>
@@ -55,12 +55,16 @@
                         {{ doc.doc_name }}, <a href="{{ doc.url }}" target="_blank">{{ doc.goods_name }}</a>
                         </div>
                         <div class="panel-body">
-                        {% for snippet in doc.meta.highlight.plain_content %}
-                            <div class="well well-sm snippet">{{ snippet|safe }}</div>
-                        {% endfor %}
+
+                        {% if doc.meta.highlight.plain_content %}
+                            <h5>Фрагменти документа</h5>
+                            {% for snippet in doc.meta.highlight.plain_content %}
+                                <div class="well well-sm snippet">{{ snippet|safe }}</div>
+                            {% endfor %}
+                        {% endif %}
                         </div>
                         <div class="panel-footer">
-                        {{ doc.region_name }}, {{ doc.announce_date }}, <a href="/docs/{{ doc.filename }}">{{ doc.filename }}</a>
+                        {{ doc.region_name }}, {{ doc.announce_date }}, &nbsp; <a href="/docs/{{ doc.filename }}">{{ doc.filename }} <i class="glyphicon glyphicon-circle-arrow-down"></i></a> &nbsp; &nbsp;<a href="{{ doc.get_absolute_url }}" class="preview">Превью <i class="glyphicon glyphicon-sunglasses"></i></a>
                         </div>
                     </div>
 
@@ -81,5 +85,22 @@
                 {% endif %}
             </div>
         </div>
+
+        <script type="text/javascript">
+            $(function() {
+                $("body").on("click", "a.preview", function(e) {
+                    var el = $(this),
+                        panel = el.closest(".panel").find(".panel-body");
+
+                    e.preventDefault();
+
+                    panel
+                        .remove(".embed-responsive")
+                        .append('<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item"></iframe></div>')
+                        .find("iframe")
+                            .attr("src", el.attr("href"));
+                })
+            })
+        </script>
     {% endif %}
 {% endblock %}

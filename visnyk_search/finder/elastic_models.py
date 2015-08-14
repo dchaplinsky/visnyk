@@ -1,4 +1,5 @@
 from elasticsearch_dsl import DocType, Index, String
+from django.core.urlresolvers import reverse
 
 visnyk_index = Index('visnyk')
 
@@ -30,3 +31,6 @@ class VisnykDocument(DocType):
     plain_content = String(analyzer="html_uk_analyzer")
     goods_name = String(analyzer="html_uk_analyzer")
     cust_name = String(analyzer="html_uk_analyzer")
+
+    def get_absolute_url(self):
+        return reverse("preview", kwargs={"doc_id": self._id})
